@@ -6,7 +6,7 @@ import android.content.ContextWrapper;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pixplicity.easyprefs.library.Prefs;
 
-class App extends Application {
+public class App extends Application {
 
     @Override
     public void onCreate() {

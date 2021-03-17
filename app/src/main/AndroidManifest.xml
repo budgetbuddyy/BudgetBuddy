@@ -10,18 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ActForgotPass"></activity>
-        <activity android:name=".activities.ActLogin" />
-        <activity android:name=".activities.ActSecurityQuestion" />
-        <activity android:name=".activities.ActExpenseCategories" />
-        <activity android:name=".activities.ActSignUp" />
-        <activity android:name=".activities.ActMain">
+        <activity android:name=".activities.ActSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ActForgotPass" />
+        <activity android:name=".activities.ActLogin" />
+        <activity android:name=".activities.ActSecurityQuestion" />
+        <activity android:name=".activities.ActExpenseCategories" />
+        <activity android:name=".activities.ActSignUp" />
+        <activity android:name=".activities.ActMain" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.READ_SMS" />
 
 </manifest>

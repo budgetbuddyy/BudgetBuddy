@@ -58,7 +58,8 @@ dependencies {
     //gson
     implementation 'com.google.code.gson:gson:2.8.5'
     //Pie chart
-    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
     //multidex
     implementation 'com.android.support:multidex:1.0.3'

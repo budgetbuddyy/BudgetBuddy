@@ -45,4 +45,8 @@
         <item>Settings</item>
         <item>Logout</item>
     </string-array>
+    <string name="current_year">Current Year</string>
+    <string name="previous_month">Previous Month</string>
+    <string name="previous_year">Previous Year</string>
+    <string name="pie_chart_for">Pie chart for</string>
 </resources>

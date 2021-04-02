@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.budgetbuddy.fragments.FragMonthlyExpense;
 import com.example.budgetbuddy.fragments.FragWeeklyExpense;
+import com.example.budgetbuddy.fragments.FragYearlyExpense;
 import com.example.budgetbuddy.model.Expense;
 
 public class PagerAdapter extends FragmentPagerAdapter {
@@ -27,9 +29,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
                 return new FragWeeklyExpense();
             case 1:
-                return null;
+                return new FragMonthlyExpense();
             case 2:
-                return null;
+                return new FragYearlyExpense();
             default:
                 return null;
         }

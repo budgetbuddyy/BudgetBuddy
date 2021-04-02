@@ -32,4 +32,10 @@
         <item>Settings</item>
         <item>Logout</item>
     </string-array>
+    <string name="enter_password">Enter New Password</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="change">Change</string>
+    <string name="change_password">Change Password</string>
+    <string name="enter_old_password">Enter Old Password</string>
+    <string name="reminder">Reminder</string>
 </resources>

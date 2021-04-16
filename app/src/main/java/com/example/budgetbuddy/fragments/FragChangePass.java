@@ -1,7 +1,10 @@
 package com.example.budgetbuddy.fragments;
+
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pixplicity.easyprefs.library.Prefs;
+
 public class FragChangePass extends FragBase {
     private TextInputLayout edtOldPass, edtNewPass, edtReEnterPass;
     private Button btnChange;
@@ -28,15 +33,18 @@ public class FragChangePass extends FragBase {
     private FirebaseDatabase mDatabase;
     private DatabaseReference changePassRef;
     private LinearLayout lytNewPass;
+
     @Override
     int getResourceLayout() {
         return R.layout.frag_change_pass;
     }
+
     @Override
     void setUpView() {
         init();
         clickListeners();
     }
+
     private void clickListeners() {
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +78,7 @@ public class FragChangePass extends FragBase {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     closeLoader();
-                                    Log.e("error_pass_change",e.getMessage());
+                                    Log.e("error_pass_change", e.getMessage());
                                 }
                             });
                         }
@@ -79,6 +87,7 @@ public class FragChangePass extends FragBase {
             }
         });
     }
+
     private boolean checkNewPass(String newPass, String rePass) {
         if (!utils.isStringValidate(newPass)) {
             utils.yoyoAnimation(edtNewPass);
@@ -97,6 +106,7 @@ public class FragChangePass extends FragBase {
         }
         return true;
     }
+
     private void init() {
         //Layout
         edtNewPass = getFragView().findViewById(R.id.edt_new_pass);
@@ -112,6 +122,7 @@ public class FragChangePass extends FragBase {
         //model class
         user = getUser();
     }
+
     private boolean checkOldPass(String oldPass) {
         if (!utils.isStringValidate(oldPass)) {
             utils.yoyoAnimation(edtOldPass);

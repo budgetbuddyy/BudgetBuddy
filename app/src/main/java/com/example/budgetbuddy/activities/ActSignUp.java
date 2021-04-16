@@ -44,7 +44,6 @@ public class ActSignUp extends ActBase {
                 String mobile = edtMobile.getEditText().getText().toString();
 
                 if (credentialValidation(email_id, password, name, mobile)) {
-//                    showLoader();
 
                     user.setUser_email_id(email_id);
                     user.setUser_mobile(mobile);
@@ -73,30 +72,42 @@ public class ActSignUp extends ActBase {
         }
 
         if (!utils.isStringValidate(mobile)) {
+            utils.showErrorMsg(edtName,null);
             utils.showErrorMsg(edtMobile,"Enter mobile number");
             utils.yoyoAnimation(edtMobile);
             return false;
         }
 
+        if (mobile.length() != 10) {
+            utils.showErrorMsg(edtName,null);
+            utils.showErrorMsg(edtMobile,"Enter valid number");
+            utils.yoyoAnimation(edtMobile);
+            return false;
+        }
+
         if (!utils.isStringValidate(email_id)) {
+            utils.showErrorMsg(edtMobile,null);
             utils.showErrorMsg(edtEmailId,"Enter email id");
             utils.yoyoAnimation(edtEmailId);
             return false;
         }
 
         if(!utils.isEmailValidate(email_id)){
+            utils.showErrorMsg(edtMobile,null);
             utils.showErrorMsg(edtEmailId,"Enter valid email id");
             utils.yoyoAnimation(edtEmailId);
             return false;
         }
 
         if (password.length() < 6){
+            utils.showErrorMsg(edtEmailId,null);
             Toast.makeText(this, "Password length must be more than six letters for security purpose", Toast.LENGTH_LONG).show();
             utils.yoyoAnimation(edtPassword);
             return false;
         }
 
         if (!utils.isStringValidate(password)) {
+            utils.showErrorMsg(edtEmailId,null);
             utils.showErrorMsg(edtPassword,"Enter password");
             utils.yoyoAnimation(edtPassword);
             return false;

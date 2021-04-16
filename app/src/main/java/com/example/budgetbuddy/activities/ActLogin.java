@@ -1,7 +1,9 @@
 package com.example.budgetbuddy.activities;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+
 public class ActLogin extends ActBase {
     private TextInputLayout edtEmailId, edtPassword;
     private TextView btnForgetPass, btnCreateUser;
@@ -42,6 +46,7 @@ public class ActLogin extends ActBase {
     private DatabaseReference loginDatabaseRef;
     private Gson gson;
     private ImageView imgMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,7 @@ public class ActLogin extends ActBase {
         setSpannable();
         clickListeners();
     }
+
     private void setSpannable() {
         String s1 = "Don't have an account? Create an account.";
         SpannableString ss1 = new SpannableString(s1);
@@ -63,6 +69,7 @@ public class ActLogin extends ActBase {
         btnCreateUser.setText(ss1);
         btnCreateUser.setMovementMethod(LinkMovementMethod.getInstance());
     }
+
     private void clickListeners() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,10 +94,11 @@ public class ActLogin extends ActBase {
                                             Prefs.putString(getResources().getString(R.string.user), gson.toJson(user));
                                             Log.e("data", gson.toJson(user));
                                             if (!user.getUser_password().equals(password)) {
-                                                resetPassInDatabase(password,user);
+                                                resetPassInDatabase(password, user);
                                             }
                                             nextActivity();
                                         }
+
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
                                             Log.e("error_database", error.getMessage());
@@ -123,25 +131,28 @@ public class ActLogin extends ActBase {
             }
         });
     }
+
     private void resetPassInDatabase(final String password, final User user) {
         loginDatabaseRef.child(uid).child("user_details").child("user_password").setValue(password).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 user.setUser_password(password);
-                Prefs.putString(getResources().getString(R.string.user),gson.toJson(user));
+                Prefs.putString(getResources().getString(R.string.user), gson.toJson(user));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e("errorResetPass",e.getMessage());
+                Log.e("errorResetPass", e.getMessage());
             }
         });
     }
+
     private void nextActivity() {
         Intent mainIntent = new Intent(ActLogin.this, ActMain.class);
         startActivity(mainIntent);
         finish();
     }
+
     private void initialization() {
         //Layout
         edtEmailId = findViewById(R.id.edt_email_id);
@@ -159,6 +170,7 @@ public class ActLogin extends ActBase {
         //gson
         gson = new Gson();
     }
+
     private boolean credentialValidation(String email_id, String password) {
         if (!utils.isStringValidate(email_id)) {
             utils.showErrorMsg(edtEmailId, "Enter email");

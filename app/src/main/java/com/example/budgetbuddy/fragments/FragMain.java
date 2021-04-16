@@ -96,7 +96,7 @@ public class FragMain extends FragBase {
 
         //pager adapter
         if (getFragmentManager() != null) {
-            pagerAdapter = new PagerAdapter(getFragmentManager(), mainTabLayout.getTabCount(),weekWiseExpense);
+            pagerAdapter = new PagerAdapter(getFragmentManager(), mainTabLayout.getTabCount(), weekWiseExpense);
             mainViewPager.setAdapter(pagerAdapter);
         }
 

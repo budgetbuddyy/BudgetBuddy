@@ -18,7 +18,10 @@ import android.widget.Toast;
 
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.adapter.AdapterMenu;
+import com.example.budgetbuddy.fragments.FragAddExpenses;
 import com.example.budgetbuddy.fragments.FragMain;
+import com.example.budgetbuddy.fragments.FragSetting;
+import com.example.budgetbuddy.fragments.FragTally;
 import com.example.budgetbuddy.helper.Utils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -121,21 +124,26 @@ public class ActMain extends ActBase implements AdapterMenu.OnRcvListener {
 //                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
             case 1:
-
-//                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
-
-                break;
-            case 2:
-//                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
-                break;
-
-            case 3:
                 Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
-            case 4:
+
+            case 2:
+                changeFragment(getSupportFragmentManager(), new FragTally(), R.id.fragMainContainer);
 //                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
+            case 3:
+                changeFragment(getSupportFragmentManager(), new FragAddExpenses(), R.id.fragMainContainer);
+//                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
+                break;
+
+            case 4:
+                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
+                break;
             case 5:
+                changeFragment(getSupportFragmentManager(), new FragSetting(), R.id.fragMainContainer);
+//                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
+                break;
+            case 6:
                 callLogout();
 
         }

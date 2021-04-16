@@ -1,4 +1,5 @@
 package com.example.budgetbuddy.fragments;
+
 import androidx.annotation.NonNull;
 
 import android.util.Log;
@@ -6,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.Expense;
 import com.example.budgetbuddy.model.User;
@@ -16,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+
 public class FragAddExpenses extends FragBase {
     private FirebaseDatabase expenseDatabase;
     private DatabaseReference expenseDatabaseRef;
@@ -25,15 +28,18 @@ public class FragAddExpenses extends FragBase {
     private User user;
     private Gson gson;
     private Expense expense;
+
     @Override
     int getResourceLayout() {
         return R.layout.frag_add_expenses;
     }
+
     @Override
     void setUpView() {
         init();
         initListeners();
     }
+
     private void initListeners() {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +49,7 @@ public class FragAddExpenses extends FragBase {
             }
         });
     }
+
     private void getData() {
         String strGrocery = edtGrocery.getText().toString();
         String strFood = edtFood.getText().toString();
@@ -88,11 +95,13 @@ public class FragAddExpenses extends FragBase {
         addExpenses();
         Log.e("user_data", gson.toJson(expense));
     }
+
     private void addExpenses() {
+        closeLoader();
+
         expenseDatabaseRef.child("expense_details").child(getCurrentTime()).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                closeLoader();
                 clearData();
                 edtGrocery.requestFocus();
                 Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
@@ -100,15 +109,16 @@ public class FragAddExpenses extends FragBase {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                closeLoader();
                 Log.e("error_expense", e.getMessage());
             }
         });
     }
+
     private String getCurrentTime() {
         return String.valueOf(System.currentTimeMillis());
     }
-    private void clearData(){
+
+    private void clearData() {
         edtGrocery.setText("");
         edtFood.setText("");
         edtTransport.setText("");
@@ -116,6 +126,7 @@ public class FragAddExpenses extends FragBase {
         edtMisc.setText("");
         edtInvest.setText("");
     }
+
     private void init() {
         //Firebase
         expenseDatabase = FirebaseDatabase.getInstance();

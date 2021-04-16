@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.Expense;
@@ -36,6 +39,7 @@ public class FragWeeklyExpense extends FragBase {
 
 
     private Expense expense;
+    private TextView txtEmptyMsg;
     private FirebaseDatabase expenseDatabase;
     private DatabaseReference expenseDataRef;
     private ArrayList<Expense> expenseList;
@@ -61,12 +65,17 @@ public class FragWeeklyExpense extends FragBase {
 
     @Override
     void setUpView() {
-        showLoader();
         init();
         getExpenseCount();
         getExpenseData();
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(baseContext, "onResume", Toast.LENGTH_SHORT).show();
     }
 
     private void getExpenseCount() {
@@ -119,9 +128,20 @@ public class FragWeeklyExpense extends FragBase {
             weekWiseExpense.setMedical(String.valueOf(medical));
             weekWiseExpense.setMisc(String.valueOf(misc));
             weekWiseExpense.setTransportation(String.valueOf(transportation));
-            Log.e("grocery", gson.toJson(weekWiseExpense));
+            Log.e("weekWiseExpense", gson.toJson(weekWiseExpense));
 
-            setUpPieChartWeekly(weekWiseExpense);
+            if(weekWiseExpense.getFood().equals("0")
+            && weekWiseExpense.getGrocery().equals("0")
+            && weekWiseExpense.getMedical().equals("0")
+            && weekWiseExpense.getInvestment().equals("0")
+            && weekWiseExpense.getTransportation().equals("0")
+            && weekWiseExpense.getMisc().equals("0")){
+                closeLoader();
+                pieChartWeekly.setVisibility(View.GONE);
+                txtEmptyMsg.setVisibility(View.VISIBLE);
+            }else{
+                setUpPieChartWeekly(weekWiseExpense);
+            }
 
         }
     }
@@ -137,6 +157,7 @@ public class FragWeeklyExpense extends FragBase {
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
 
+                showLoader();
 
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);
@@ -165,7 +186,12 @@ public class FragWeeklyExpense extends FragBase {
 
 
     private void init() {
+
+        //layout
         pieChartWeekly = getFragView().findViewById(R.id.pie_chart_weekly);
+        txtEmptyMsg = getFragView().findViewById(R.id.txt_empty_msg_week);
+
+        //firebase
         expenseDatabase = FirebaseDatabase.getInstance();
         expenseDataRef = expenseDatabase.getReference();
 

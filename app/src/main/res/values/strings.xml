@@ -44,9 +44,29 @@
         <item>Home</item>
         <!--<item>Customer dashboard</item>-->
         <item>Today\'s Sms</item>
+        <item>Tally expense</item>
         <item>Add expense</item>
         <item>Savings Suggestions</item>
         <item>Settings</item>
         <item>Logout</item>
     </string-array>
+
+
+    <string name="editor_insert_reminder_successful">Reminder saved</string>
+
+    <string name="editor_insert_reminder_failed">Error with saving reminder</string>
+
+    <string name="editor_update_reminder_successful">Reminder updated</string>
+
+    <string name="editor_update_reminder_failed">Error with updating reminder</string>
+    <string name="editor_delete_reminder_successful">Reminder deleted</string>
+
+    <string name="editor_delete_reminder_failed">Error with deleting reminder</string>
+
+    <string name="reminder_title">AlarmReminder</string>
+    <string name="save">Save</string>
+    <string name="set_reminder">Set reminder</string>
+    <string name="date">Date</string>
+    <string name="time">Select your time</string>
+
 </resources>

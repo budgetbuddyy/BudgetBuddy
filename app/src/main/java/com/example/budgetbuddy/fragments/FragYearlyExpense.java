@@ -1,11 +1,15 @@
 package com.example.budgetbuddy.fragments;
+
 import android.app.AlarmManager;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.Expense;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,11 +23,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 public class FragYearlyExpense extends FragBase {
     Expense yearWiseExpense;
     PieChart pieChartYearly;
@@ -49,19 +55,21 @@ public class FragYearlyExpense extends FragBase {
     int transportation, preTransportation;
     int timestamp;
     long currentTS;
+
     @Override
     int getResourceLayout() {
         return R.layout.frag_yearly_expense;
     }
+
     @Override
     void setUpView() {
-        showLoader();
         init();
         getExpenseCount();
         getExpenseData();
         setTitle();
         clickListeners();
     }
+
     private void clickListeners() {
         if (!btnCurrentYear.isEnabled()) {
             btnCurrentYear.setBackgroundColor(getResources().getColor(R.color.gray));
@@ -100,7 +108,7 @@ public class FragYearlyExpense extends FragBase {
                 yearWiseExpense.setMisc("400");
                 yearWiseExpense.setTransportation("250");
                 Log.e("yearWise", gson.toJson(yearWiseExpense));
-                String previousMonth = String.valueOf(getYear()-1);
+                String previousMonth = String.valueOf(getYear() - 1);
                 txtTitle.setText("Pie chart of " + previousMonth);
                 setUpPieChartWeekly(yearWiseExpense, previousMonth);
                 btnPreviousYear.setBackgroundColor(getResources().getColor(R.color.gray));
@@ -110,26 +118,31 @@ public class FragYearlyExpense extends FragBase {
             }
         });
     }
-    private void getExpenseCount () {
+
+    private void getExpenseCount() {
         expenseDataRef.child(getUserID()).child("expense_details").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 expenseCount = snapshot.getChildrenCount();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
+
     private void setTitle() {
         year = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
         txtTitle.setText("Pie chart of " + year);
     }
+
     private int getYear() {
         String currentDate = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
 //        Log.e("month", currentDate);
         return Integer.parseInt(currentDate);
     }
+
     private void setData() {
         if (expenseList.size() == expenseCount) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
@@ -165,6 +178,7 @@ public class FragYearlyExpense extends FragBase {
             closeLoader();
         }
     }
+
     private void getExpenseData() {
         expenseDataRef.child(getUserID()).child("expense_details").addChildEventListener(new ChildEventListener() {
             @Override
@@ -172,23 +186,30 @@ public class FragYearlyExpense extends FragBase {
                 expense = snapshot.getValue(Expense.class);
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
+                showLoader();
+
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);
             }
+
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
+
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
             }
+
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
+
     public void setUpPieChartWeekly(Expense monthWiseExpense, String previousMonth) {
         ArrayList<PieEntry> dataEntries = new ArrayList<>();
         dataEntries.add(new PieEntry(Integer.parseInt(monthWiseExpense.getGrocery()), "Grocery"));
@@ -208,6 +229,7 @@ public class FragYearlyExpense extends FragBase {
         pieChartYearly.animate();
         closeLoader();
     }
+
     private void init() {
 //layout
         pieChartYearly = getFragView().findViewById(R.id.pie_chart_yearly);

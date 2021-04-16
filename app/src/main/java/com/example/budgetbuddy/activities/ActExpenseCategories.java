@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.User;
 import com.google.gson.Gson;
+
 public class ActExpenseCategories extends ActBase {
     User user;
     EditText edtFood, edtTransport, edtGrocery, edtMisc, edtMedical, edtInvest, edtSalary;

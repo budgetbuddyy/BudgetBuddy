@@ -1,11 +1,15 @@
 package com.example.budgetbuddy.fragments;
+
 import android.app.AlarmManager;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.Expense;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,11 +23,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 public class FragMonthlyExpense extends FragBase {
     Expense monthWiseExpense;
     PieChart pieChartMonthly;
@@ -49,19 +55,21 @@ public class FragMonthlyExpense extends FragBase {
     int transportation, preTransportation;
     int timestamp;
     long currentTS;
+
     @Override
     int getResourceLayout() {
         return R.layout.frag_monthly_expense;
     }
+
     @Override
     void setUpView() {
-        showLoader();
         init();
         getExpenseCount();
         getExpenseData();
         setTitle();
         clickListeners();
     }
+
     private void clickListeners() {
         if (!btnCurrentMonth.isEnabled()) {
             btnCurrentMonth.setBackgroundColor(getResources().getColor(R.color.gray));
@@ -110,15 +118,18 @@ public class FragMonthlyExpense extends FragBase {
             }
         });
     }
+
     private void setTitle() {
         month_name = new SimpleDateFormat("MMMM", Locale.getDefault()).format(new Date());
         txtTitle.setText("Pie chart of " + month_name);
     }
+
     private int getMonth() {
         String currentDate = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
 //        Log.e("month", currentDate);
         return Integer.parseInt(currentDate);
     }
+
     private void setData() {
         if (expenseList.size() == expenseCount) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM", Locale.getDefault());
@@ -149,21 +160,25 @@ public class FragMonthlyExpense extends FragBase {
             monthWiseExpense.setMisc(String.valueOf(misc));
             monthWiseExpense.setTransportation(String.valueOf(transportation));
             Log.e("monthWise", gson.toJson(monthWiseExpense));
-            setUpPieChartWeekly(monthWiseExpense, month_name);
+
+                setUpPieChartWeekly(monthWiseExpense, month_name);
             pieChartMonthly.refreshDrawableState();
         }
     }
+
     private void getExpenseCount() {
         expenseDataRef.child(getUserID()).child("expense_details").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 expenseCount = snapshot.getChildrenCount();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
+
     private void getExpenseData() {
         expenseDataRef.child(getUserID()).child("expense_details").addChildEventListener(new ChildEventListener() {
             @Override
@@ -171,23 +186,30 @@ public class FragMonthlyExpense extends FragBase {
                 expense = snapshot.getValue(Expense.class);
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
+                showLoader();
+
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);
             }
+
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
+
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
             }
+
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
+
     private void init() {
         //layout
         pieChartMonthly = getFragView().findViewById(R.id.pie_chart_monthly);
@@ -206,6 +228,7 @@ public class FragMonthlyExpense extends FragBase {
         calendar.add(Calendar.MONTH, -1);
         txtTitle = getFragView().findViewById(R.id.txtTitleMonth);
     }
+
     public void setUpPieChartWeekly(Expense monthWiseExpense, String previousMonth) {
         ArrayList<PieEntry> dataEntries = new ArrayList<>();
         dataEntries.add(new PieEntry(Integer.parseInt(monthWiseExpense.getGrocery()), "Grocery"));
@@ -225,11 +248,13 @@ public class FragMonthlyExpense extends FragBase {
         pieChartMonthly.animate();
         closeLoader();
     }
+
     private int getDate() {
         String currentDate = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
 //        Log.e("month", currentDate);
         return Integer.parseInt(currentDate);
     }
+
     private int getYear() {
         String currentDate = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
 //        Log.e("month", currentDate);

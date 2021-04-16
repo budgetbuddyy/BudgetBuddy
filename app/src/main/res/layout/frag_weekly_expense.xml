@@ -26,10 +26,28 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/big_text" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie_chart_weekly"
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"/>
+                android:layout_height="400dp">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart_weekly"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    tools:visibility="visible"
+                    android:id="@+id/txt_empty_msg_week"
+                    android:text="No expenses in last week!"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </FrameLayout>
 
 
         </LinearLayout>

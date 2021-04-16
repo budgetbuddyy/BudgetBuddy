@@ -253,15 +253,7 @@ public class FragTally extends FragBase{
         LineData data = new LineData(dataSetList);
         lineTallyChart.setData(data);
 
-       /* PieDataSet pieDataSet = new PieDataSet(dataEntries, "Expense");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setValueTextColor(getResources().getColor(R.color.white));
-        pieDataSet.setValueTextSize(20f);
-        PieData pieData = new PieData(pieDataSet);
-        pieChartMonthly.setData(pieData);
-        pieChartMonthly.getDescription().setEnabled(false);
-        pieChartMonthly.setCenterText(previousMonth);
-        pieChartMonthly.animate();*/
+
         closeLoader();
 
     }

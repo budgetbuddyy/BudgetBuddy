@@ -21,6 +21,7 @@ import com.example.budgetbuddy.adapter.AdapterMenu;
 import com.example.budgetbuddy.fragments.FragAddExpenses;
 import com.example.budgetbuddy.fragments.FragMain;
 import com.example.budgetbuddy.fragments.FragSetting;
+import com.example.budgetbuddy.fragments.FragSuggestion;
 import com.example.budgetbuddy.fragments.FragTally;
 import com.example.budgetbuddy.helper.Utils;
 import com.google.android.material.appbar.AppBarLayout;
@@ -137,6 +138,7 @@ public class ActMain extends ActBase implements AdapterMenu.OnRcvListener {
                 break;
 
             case 4:
+                changeFragment(getSupportFragmentManager(), new FragSuggestion(), R.id.fragMainContainer);
                 Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
             case 5:

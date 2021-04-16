@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.budgetbuddy.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 public class FragSuggestion extends FragBase {
     ProgressBar superProgressBar;
     WebView superWebView;
-    LinearLayout superLinearLayout;
+    RelativeLayout superLinearLayout;
     String myCurrentUrl;
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference webDataRef;
@@ -58,12 +59,12 @@ public class FragSuggestion extends FragBase {
         superWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                superLinearLayout.setVisibility(View.VISIBLE);
+                superProgressBar.setVisibility(View.VISIBLE);
                 super.onPageStarted(view, url, favicon);
             }
             @Override
             public void onPageFinished(WebView view, String url) {
-                superLinearLayout.setVisibility(View.GONE);
+                superProgressBar.setVisibility(View.GONE);
                 super.onPageFinished(view, url);
                 myCurrentUrl = url;
             }

@@ -38,6 +38,12 @@ public class FragSetting extends FragBase {
                 utils.addFragmentToActivity(getFragmentManager(),new FragReminder(),R.id.fragMainContainer);
             }
         });
+        btnMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.addFragmentToActivity(getFragmentManager(),new FragMyProfile(),R.id.fragMainContainer);
+            }
+        });
     }
     private void init() {
         //model class

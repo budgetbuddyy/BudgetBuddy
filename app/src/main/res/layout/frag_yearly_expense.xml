@@ -22,6 +22,16 @@
                 android:text="@string/pie_chart_for"
                 android:textColor="@color/black"
                 android:textSize="@dimen/big_text" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/lyt_year"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart_yearly"
                 android:layout_width="match_parent"
@@ -53,6 +63,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+        </LinearLayout>
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:textSize="25sp"
+                tools:visibility="visible"
+                android:id="@+id/txt_empty_msg_year"
+                android:text="No expenses added!"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </FrameLayout>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -69,11 +69,7 @@ public class FragWeeklyExpense extends FragBase {
         showLoader("FragWeeklyExpenses");
 
         getExpenseCount();
-        if (expenseCount == 0){
-            pieChartWeekly.setVisibility(View.GONE);
-            txtEmptyMsg.setVisibility(View.VISIBLE);
-            closeLoader();
-        }
+
         getExpenseData();
 
 
@@ -82,7 +78,9 @@ public class FragWeeklyExpense extends FragBase {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("onResume","onResume");
+
+
+        Log.e("onResume", "onResume");
     }
 
     private void getExpenseCount() {
@@ -90,10 +88,16 @@ public class FragWeeklyExpense extends FragBase {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 expenseCount = snapshot.getChildrenCount();
+                if (expenseCount == 0) {
+                    pieChartWeekly.setVisibility(View.GONE);
+                    txtEmptyMsg.setVisibility(View.VISIBLE);
+                    closeLoader();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("week_data_count_error", error.getMessage());
 
             }
         });
@@ -163,8 +167,6 @@ public class FragWeeklyExpense extends FragBase {
 
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
-
-
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);
             }
@@ -185,7 +187,7 @@ public class FragWeeklyExpense extends FragBase {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("week_data_count_error", error.getMessage());
             }
         });
     }
@@ -196,6 +198,7 @@ public class FragWeeklyExpense extends FragBase {
         //layout
         pieChartWeekly = getFragView().findViewById(R.id.pie_chart_weekly);
         txtEmptyMsg = getFragView().findViewById(R.id.txt_empty_msg_week);
+
 
         //firebase
         expenseDatabase = FirebaseDatabase.getInstance();

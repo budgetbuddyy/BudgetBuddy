@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/lyt_pie_month"
+                    android:id="@+id/lyt_month"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -72,8 +72,8 @@
                     android:gravity="center"
                     android:textSize="25sp"
                     tools:visibility="visible"
-                    android:id="@+id/txt_empty_msg_week"
-                    android:text="No expenses in last week!"
+                    android:id="@+id/txt_empty_msg_month"
+                    android:text="No expenses added!"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

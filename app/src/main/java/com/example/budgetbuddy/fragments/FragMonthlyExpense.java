@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.Expense;
@@ -33,7 +35,8 @@ import java.util.Locale;
 public class FragMonthlyExpense extends FragBase {
     Expense monthWiseExpense;
     PieChart pieChartMonthly;
-    TextView txtTitle;
+    TextView txtTitle, txtEmptyMsgMonth;
+    private LinearLayout lyt_month;
     private Expense expense;
     private FirebaseDatabase expenseDatabase;
     private DatabaseReference expenseDataRef;
@@ -67,9 +70,6 @@ public class FragMonthlyExpense extends FragBase {
 
         init();
         getExpenseCount();
-        if (expenseCount == 0){
-            closeLoader();
-        }
         getExpenseData();
         setTitle();
         clickListeners();
@@ -100,26 +100,31 @@ public class FragMonthlyExpense extends FragBase {
         btnPreviousMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                monthWiseExpense.setGrocery(String.valueOf(preGrocery));
-                monthWiseExpense.setFood(String.valueOf(preFood));
-                monthWiseExpense.setInvestment(String.valueOf(preInvestment));
-                monthWiseExpense.setMedical(String.valueOf(preMedical));
-                monthWiseExpense.setMisc(String.valueOf(preMisc));
-                monthWiseExpense.setTransportation(String.valueOf(preTransportation));
+                if(preGrocery == 0 && preFood == 0 && preTransportation == 0 && preInvestment == 0 && preMedical == 0 && preMisc == 0){
+                    Toast.makeText(baseContext, "There was no expense added in last month.", Toast.LENGTH_LONG).show();
+                }else{
+                    monthWiseExpense.setGrocery(String.valueOf(preGrocery));
+                    monthWiseExpense.setFood(String.valueOf(preFood));
+                    monthWiseExpense.setInvestment(String.valueOf(preInvestment));
+                    monthWiseExpense.setMedical(String.valueOf(preMedical));
+                    monthWiseExpense.setMisc(String.valueOf(preMisc));
+                    monthWiseExpense.setTransportation(String.valueOf(preTransportation));
                 /*monthWiseExpense.setGrocery("120");
                 monthWiseExpense.setFood("320");
                 monthWiseExpense.setInvestment("220");
                 monthWiseExpense.setMedical("660");
                 monthWiseExpense.setMisc("400");
                 monthWiseExpense.setTransportation("250");*/
-                Log.e("monthWise", gson.toJson(monthWiseExpense));
-                String previousMonth = new SimpleDateFormat("MMMM").format(calendar.getTime());
-                txtTitle.setText("Pie chart of " + previousMonth);
-                setUpPieChartWeekly(monthWiseExpense, previousMonth);
-                btnPreviousMonth.setBackgroundColor(getResources().getColor(R.color.gray));
-                btnCurrentMonth.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                btnCurrentMonth.setEnabled(true);
-                btnPreviousMonth.setEnabled(false);
+                    Log.e("monthWise", gson.toJson(monthWiseExpense));
+                    String previousMonth = new SimpleDateFormat("MMMM").format(calendar.getTime());
+                    txtTitle.setText("Pie chart of " + previousMonth);
+                    setUpPieChartWeekly(monthWiseExpense, previousMonth);
+                    btnPreviousMonth.setBackgroundColor(getResources().getColor(R.color.gray));
+                    btnCurrentMonth.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    btnCurrentMonth.setEnabled(true);
+                    btnPreviousMonth.setEnabled(false);
+                }
+
             }
         });
     }
@@ -158,6 +163,8 @@ public class FragMonthlyExpense extends FragBase {
                     preTransportation = preTransportation + Integer.parseInt(expenseList.get(i).getTransportation());
                 }
             }
+
+
             monthWiseExpense.setGrocery(String.valueOf(grocery));
             monthWiseExpense.setFood(String.valueOf(food));
             monthWiseExpense.setInvestment(String.valueOf(investment));
@@ -166,7 +173,7 @@ public class FragMonthlyExpense extends FragBase {
             monthWiseExpense.setTransportation(String.valueOf(transportation));
             Log.e("monthWise", gson.toJson(monthWiseExpense));
 
-                setUpPieChartWeekly(monthWiseExpense, month_name);
+            setUpPieChartWeekly(monthWiseExpense, month_name);
             pieChartMonthly.refreshDrawableState();
         }
     }
@@ -176,6 +183,11 @@ public class FragMonthlyExpense extends FragBase {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 expenseCount = snapshot.getChildrenCount();
+                if (expenseCount == 0){
+                    lyt_month.setVisibility(View.INVISIBLE);
+                    txtEmptyMsgMonth.setVisibility(View.VISIBLE);
+                    closeLoader();
+                }
             }
 
             @Override
@@ -220,6 +232,9 @@ public class FragMonthlyExpense extends FragBase {
         pieChartMonthly = getFragView().findViewById(R.id.pie_chart_monthly);
         btnCurrentMonth = getFragView().findViewById(R.id.btn_current_month);
         btnPreviousMonth = getFragView().findViewById(R.id.btn_previous_month);
+        txtEmptyMsgMonth = getFragView().findViewById(R.id.txt_empty_msg_month);
+        lyt_month = getFragView().findViewById(R.id.lyt_month);
+
         //firebase
         expenseDatabase = FirebaseDatabase.getInstance();
         expenseDataRef = expenseDatabase.getReference();

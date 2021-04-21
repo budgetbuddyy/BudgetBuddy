@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.budgetbuddy.R;
 import com.example.budgetbuddy.model.Expense;
@@ -33,7 +35,8 @@ import java.util.Locale;
 public class FragYearlyExpense extends FragBase {
     Expense yearWiseExpense;
     PieChart pieChartYearly;
-    TextView txtTitle;
+    TextView txtTitle, txtEmptyMsgYear;
+    private LinearLayout lytYear;
     private Expense expense;
     private FirebaseDatabase expenseDatabase;
     private DatabaseReference expenseDataRef;
@@ -67,9 +70,7 @@ public class FragYearlyExpense extends FragBase {
 
         init();
         getExpenseCount();
-        if (expenseCount == 0){
-            closeLoader();
-        }
+
         getExpenseData();
         setTitle();
         clickListeners();
@@ -100,26 +101,31 @@ public class FragYearlyExpense extends FragBase {
         btnPreviousYear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*monthWiseExpense.setGrocery(String.valueOf(preGrocery));
-                monthWiseExpense.setFood(String.valueOf(preFood));
-                monthWiseExpense.setInvestment(String.valueOf(preInvestment));
-                monthWiseExpense.setMedical(String.valueOf(preMedical));
-                monthWiseExpense.setMisc(String.valueOf(preMisc));
-                monthWiseExpense.setTransportation(String.valueOf(preTransportation));*/
-                yearWiseExpense.setGrocery("120");
-                yearWiseExpense.setFood("320");
-                yearWiseExpense.setInvestment("220");
-                yearWiseExpense.setMedical("660");
-                yearWiseExpense.setMisc("400");
-                yearWiseExpense.setTransportation("250");
-                Log.e("yearWise", gson.toJson(yearWiseExpense));
-                String previousMonth = String.valueOf(getYear() - 1);
-                txtTitle.setText("Pie chart of " + previousMonth);
-                setUpPieChartWeekly(yearWiseExpense, previousMonth);
-                btnPreviousYear.setBackgroundColor(getResources().getColor(R.color.gray));
-                btnCurrentYear.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                btnCurrentYear.setEnabled(true);
-                btnPreviousYear.setEnabled(false);
+
+                if(preGrocery == 0 && preFood == 0 && preTransportation == 0 && preInvestment == 0 && preMedical == 0 && preMisc == 0){
+                    Toast.makeText(baseContext, "There was no expense added in last year.", Toast.LENGTH_LONG).show();
+                }else {
+                    yearWiseExpense.setGrocery(String.valueOf(preGrocery));
+                    yearWiseExpense.setFood(String.valueOf(preFood));
+                    yearWiseExpense.setInvestment(String.valueOf(preInvestment));
+                    yearWiseExpense.setMedical(String.valueOf(preMedical));
+                    yearWiseExpense.setMisc(String.valueOf(preMisc));
+                    yearWiseExpense.setTransportation(String.valueOf(preTransportation));
+                    /*yearWiseExpense.setGrocery("120");
+                    yearWiseExpense.setFood("320");
+                    yearWiseExpense.setInvestment("220");
+                    yearWiseExpense.setMedical("660");
+                    yearWiseExpense.setMisc("400");
+                    yearWiseExpense.setTransportation("250");*/
+                    Log.e("yearWise", gson.toJson(yearWiseExpense));
+                    String previousMonth = String.valueOf(getYear() - 1);
+                    txtTitle.setText("Pie chart of " + previousMonth);
+                    setUpPieChartWeekly(yearWiseExpense, previousMonth);
+                    btnPreviousYear.setBackgroundColor(getResources().getColor(R.color.gray));
+                    btnCurrentYear.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    btnCurrentYear.setEnabled(true);
+                    btnPreviousYear.setEnabled(false);
+                }
             }
         });
     }
@@ -129,6 +135,12 @@ public class FragYearlyExpense extends FragBase {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 expenseCount = snapshot.getChildrenCount();
+                if (expenseCount == 0) {
+
+                    lytYear.setVisibility(View.INVISIBLE);
+                    txtEmptyMsgYear.setVisibility(View.VISIBLE);
+                    closeLoader();
+                }
             }
 
             @Override
@@ -240,6 +252,9 @@ public class FragYearlyExpense extends FragBase {
         pieChartYearly = getFragView().findViewById(R.id.pie_chart_yearly);
         btnCurrentYear = getFragView().findViewById(R.id.btn_current_year);
         btnPreviousYear = getFragView().findViewById(R.id.btn_previous_year);
+        txtEmptyMsgYear = getFragView().findViewById(R.id.txt_empty_msg_year);
+        lytYear = getFragView().findViewById(R.id.lyt_year);
+
         //firebase
         expenseDatabase = FirebaseDatabase.getInstance();
         expenseDataRef = expenseDatabase.getReference();

@@ -66,7 +66,14 @@ public class FragWeeklyExpense extends FragBase {
     @Override
     void setUpView() {
         init();
+        showLoader("FragWeeklyExpenses");
+
         getExpenseCount();
+        if (expenseCount == 0){
+            pieChartWeekly.setVisibility(View.GONE);
+            txtEmptyMsg.setVisibility(View.VISIBLE);
+            closeLoader();
+        }
         getExpenseData();
 
 
@@ -75,7 +82,7 @@ public class FragWeeklyExpense extends FragBase {
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(baseContext, "onResume", Toast.LENGTH_SHORT).show();
+        Log.e("onResume","onResume");
     }
 
     private void getExpenseCount() {
@@ -130,7 +137,7 @@ public class FragWeeklyExpense extends FragBase {
             weekWiseExpense.setTransportation(String.valueOf(transportation));
             Log.e("weekWiseExpense", gson.toJson(weekWiseExpense));
 
-            if(weekWiseExpense.getFood().equals("0")
+           /* if(weekWiseExpense.getFood().equals("0")
             && weekWiseExpense.getGrocery().equals("0")
             && weekWiseExpense.getMedical().equals("0")
             && weekWiseExpense.getInvestment().equals("0")
@@ -140,9 +147,9 @@ public class FragWeeklyExpense extends FragBase {
                 pieChartWeekly.setVisibility(View.GONE);
                 txtEmptyMsg.setVisibility(View.VISIBLE);
             }else{
-                setUpPieChartWeekly(weekWiseExpense);
-            }
+            }*/
 
+            setUpPieChartWeekly(weekWiseExpense);
         }
     }
 
@@ -157,7 +164,6 @@ public class FragWeeklyExpense extends FragBase {
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
 
-                showLoader();
 
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);

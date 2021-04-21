@@ -81,7 +81,7 @@ public class FragTally extends FragBase{
     void setUpView() {
 
         init();
-        showLoader();
+        showLoader("FragTally");
 
         getExpenseCount();
         getExpenseData();

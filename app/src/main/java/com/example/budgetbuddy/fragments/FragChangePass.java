@@ -60,7 +60,7 @@ public class FragChangePass extends FragBase {
                     }
                 } else if (btnChange.getText().equals(getResources().getString(R.string.change))) {
                     if (checkNewPass(newPass, rePass)) {
-                        showLoader();
+                        showLoader("FragChangePass");
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
                             firebaseUser.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {

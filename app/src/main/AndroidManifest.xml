@@ -23,9 +23,16 @@
         <activity android:name=".activities.ActExpenseCategories" />
         <activity android:name=".activities.ActSignUp" />
         <activity android:name=".activities.ActMain" />
+
+        <receiver
+            android:name="com.example.budgetbuddy.helper.MyAlarm"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.READ_SMS" />
+
 
 </manifest>

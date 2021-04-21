@@ -60,13 +60,13 @@ public class FragMain extends FragBase {
 
                 switch (tab.getPosition()) {
                     case 0:
-                        Toast.makeText(baseContext, "Tab 1", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(baseContext, "Tab 1", Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
-                        Toast.makeText(baseContext, "Tab 2", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(baseContext, "Tab 2", Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-                        Toast.makeText(baseContext, "Tab 3", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(baseContext, "Tab 3", Toast.LENGTH_SHORT).show();
                         break;
 
                 }

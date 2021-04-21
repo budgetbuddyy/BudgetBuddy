@@ -124,28 +124,25 @@ public class ActMain extends ActBase implements AdapterMenu.OnRcvListener {
 //                changeFragment(getSupportFragmentManager(), new FragMain(), R.id.fragMainContainer);
 //                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
-            case 1:
-                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
-                break;
 
-            case 2:
+            case 1:
                 changeFragment(getSupportFragmentManager(), new FragTally(), R.id.fragMainContainer);
 //                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
-            case 3:
+            case 2:
                 changeFragment(getSupportFragmentManager(), new FragAddExpenses(), R.id.fragMainContainer);
 //                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
 
-            case 4:
+            case 3:
                 changeFragment(getSupportFragmentManager(), new FragSuggestion(), R.id.fragMainContainer);
                 Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
-            case 5:
+            case 4:
                 changeFragment(getSupportFragmentManager(), new FragSetting(), R.id.fragMainContainer);
 //                Toast.makeText(this, getResources().getStringArray(R.array.arrMenu)[position], Toast.LENGTH_SHORT).show();
                 break;
-            case 6:
+            case 5:
                 callLogout();
 
         }

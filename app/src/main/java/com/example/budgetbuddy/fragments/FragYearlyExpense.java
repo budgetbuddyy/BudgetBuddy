@@ -63,8 +63,13 @@ public class FragYearlyExpense extends FragBase {
 
     @Override
     void setUpView() {
+        showLoader("FragYearlyExpense");
+
         init();
         getExpenseCount();
+        if (expenseCount == 0){
+            closeLoader();
+        }
         getExpenseData();
         setTitle();
         clickListeners();
@@ -180,13 +185,13 @@ public class FragYearlyExpense extends FragBase {
     }
 
     private void getExpenseData() {
+
         expenseDataRef.child(getUserID()).child("expense_details").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 expense = snapshot.getValue(Expense.class);
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
-                showLoader();
 
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);

@@ -2,9 +2,11 @@ package com.example.budgetbuddy.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,9 +48,10 @@ abstract class FragBase extends Fragment {
         setUpView();
     }
 
-    public void showLoader(){
+    public void showLoader(String name){
         if(loader == null)
             loader = new Loader(baseContext);
+        Log.e("loader_from",name);
         loader.show();
     }
 

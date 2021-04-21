@@ -63,8 +63,13 @@ public class FragMonthlyExpense extends FragBase {
 
     @Override
     void setUpView() {
+        showLoader("FragMonthlyExpenses");
+
         init();
         getExpenseCount();
+        if (expenseCount == 0){
+            closeLoader();
+        }
         getExpenseData();
         setTitle();
         clickListeners();
@@ -95,18 +100,18 @@ public class FragMonthlyExpense extends FragBase {
         btnPreviousMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*monthWiseExpense.setGrocery(String.valueOf(preGrocery));
+                monthWiseExpense.setGrocery(String.valueOf(preGrocery));
                 monthWiseExpense.setFood(String.valueOf(preFood));
                 monthWiseExpense.setInvestment(String.valueOf(preInvestment));
                 monthWiseExpense.setMedical(String.valueOf(preMedical));
                 monthWiseExpense.setMisc(String.valueOf(preMisc));
-                monthWiseExpense.setTransportation(String.valueOf(preTransportation));*/
-                monthWiseExpense.setGrocery("120");
+                monthWiseExpense.setTransportation(String.valueOf(preTransportation));
+                /*monthWiseExpense.setGrocery("120");
                 monthWiseExpense.setFood("320");
                 monthWiseExpense.setInvestment("220");
                 monthWiseExpense.setMedical("660");
                 monthWiseExpense.setMisc("400");
-                monthWiseExpense.setTransportation("250");
+                monthWiseExpense.setTransportation("250");*/
                 Log.e("monthWise", gson.toJson(monthWiseExpense));
                 String previousMonth = new SimpleDateFormat("MMMM").format(calendar.getTime());
                 txtTitle.setText("Pie chart of " + previousMonth);
@@ -180,13 +185,13 @@ public class FragMonthlyExpense extends FragBase {
     }
 
     private void getExpenseData() {
+
         expenseDataRef.child(getUserID()).child("expense_details").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 expense = snapshot.getValue(Expense.class);
 //                getTimeMillis(expense,counter++);
                 expenseList.add(expense);
-                showLoader();
 
                 setData();
                 Log.e("expense_details", " " + gson.toJson(expense) + " " + previousChildName);

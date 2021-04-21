@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 
+
 public class FragAddExpenses extends FragBase {
     private FirebaseDatabase expenseDatabase;
     private DatabaseReference expenseDatabaseRef;
@@ -40,27 +41,34 @@ public class FragAddExpenses extends FragBase {
         initListeners();
     }
 
+
     private void initListeners() {
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLoader();
+                showLoader("FragAddExpenses");
                 getData();
             }
         });
+
     }
 
+
     private void getData() {
+
         String strGrocery = edtGrocery.getText().toString();
         String strFood = edtFood.getText().toString();
         String strMedical = edtMedical.getText().toString();
         String strInvest = edtInvest.getText().toString();
         String strMisc = edtMisc.getText().toString();
         String strTransport = edtTransport.getText().toString();
+
         if (strGrocery.isEmpty() && strMedical.isEmpty() && strInvest.isEmpty() && strFood.isEmpty() && strMisc.isEmpty() && strTransport.isEmpty()) {
             Toast.makeText(baseContext, "Enter at least one value.", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if (strGrocery.isEmpty()) {
             expense.setGrocery("0");
         } else {
@@ -91,17 +99,21 @@ public class FragAddExpenses extends FragBase {
         } else {
             expense.setInvestment(strInvest);
         }
+
         expense.setTimestamp(getCurrentTime());
+
         addExpenses();
+
+
         Log.e("user_data", gson.toJson(expense));
+
     }
 
     private void addExpenses() {
-        closeLoader();
-
         expenseDatabaseRef.child("expense_details").child(getCurrentTime()).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                closeLoader();
                 clearData();
                 edtGrocery.requestFocus();
                 Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
@@ -109,16 +121,19 @@ public class FragAddExpenses extends FragBase {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                closeLoader();
                 Log.e("error_expense", e.getMessage());
             }
         });
     }
 
     private String getCurrentTime() {
+
         return String.valueOf(System.currentTimeMillis());
     }
 
-    private void clearData() {
+
+    private void clearData(){
         edtGrocery.setText("");
         edtFood.setText("");
         edtTransport.setText("");
@@ -128,9 +143,11 @@ public class FragAddExpenses extends FragBase {
     }
 
     private void init() {
+
         //Firebase
         expenseDatabase = FirebaseDatabase.getInstance();
         expenseDatabaseRef = expenseDatabase.getReference().child(getUserID());
+
         //view
         edtFood = getFragView().findViewById(R.id.edt_food);
         edtMedical = getFragView().findViewById(R.id.edt_medical);
@@ -139,6 +156,7 @@ public class FragAddExpenses extends FragBase {
         edtGrocery = getFragView().findViewById(R.id.edt_groceries);
         edtTransport = getFragView().findViewById(R.id.edt_transport);
         btnAdd = getFragView().findViewById(R.id.btn_add);
+
         //gson
         gson = new Gson();
         //model class
